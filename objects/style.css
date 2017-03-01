@@ -5,3 +5,7 @@ h1 {
 h3 {
     color:black;
 }
+
+table, tr, td {
+    border: 2px solid black;
+}

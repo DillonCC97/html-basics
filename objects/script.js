@@ -1,5 +1,14 @@
-function script() {
-    console.log("Test success");
+/*jslint white: true, browser: true, devel: true, windows: true, forin: true, vars: true, nomen: true, plusplus: true, bitwise: true, regexp: true, sloppy: true, indent: 4, maxerr: 50 */
+
+// DEMO //
+//RUN showBookColl();
+//MAKE Ronald Weasley (name_arg, level_arg, type_arg)
+//MAKE Expecto Patronum (name_arg, level_arg, type_arg, effect_arg, acc_arg, pow_arg, hel_arg)
+//RUN Write Harry Potter
+//MAKE spell Neville can use
+//Play Around
+
+function showBookColl() {
     var book1 = {
         title: "White Noise",
         author: "Don Delillo",
@@ -34,11 +43,13 @@ function script() {
     var collection_arr = [book1, book2, book3];
 
     for (var i = 0; i<collection_arr.length;i++){
-        collection += ("<br><br><br>The book " + collection_arr[i].title + " was written by " + collection_arr[i].author + " and published by " + collection_arr[i].publisher + " in " + collection_arr[i].publish_country + " in " + collection_arr[i].language + " in the year " + collection_arr[i].year);
+        collection += ("The book " + collection_arr[i].title + " was written by " + collection_arr[i].author + " and published by " + collection_arr[i].publisher + " in " + collection_arr[i].publish_country + " in " + collection_arr[i].language + " in the year " + collection_arr[i].year + "<br><br><br>");
     }
     document.getElementById("collection").innerHTML = collection;
+}
 
-
+function hideBookColl() {
+    document.getElementById("collection").innerHTML = "";
 }
 
 
@@ -46,15 +57,35 @@ function wizard(name_arg, level_arg, type_arg){
     this.name = name_arg;
     this.level = level_arg;
     this.type = type_arg;
+    this.health = level_arg + 50;
 
-    this.castSpell = function(spell) {
-        if(this.type == spell.type && this.level >= spell.level) {
-            console.log(this.name +" casts " + spell.name + " successfully!\n" + spell.effect)
-        } else if(this.type != spell.type) {
-            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is a " + this.type + " wizard, and " + spell.name + " is a " + spell.type + " spell!")
-        } else if(this.level < spell.level) {
-            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is only level " + this.level + ", and " + spell.name + " is a level " + spell.level + " spell!")
+    
+    
+    this.checkLife = function() {
+        if(this.health <= 0) {
+            console.log(this.name + " is Dead!");
+        } else {
+            console.log(this.name + " has " + this.health + " health.");
         }
+    }
+    
+    this.takeDamage = function(damage) {
+        this.health -= damage;
+        console.log(this.name + " takes " + damage + " damage!");
+        this.checkLife();
+        this.updateHealth();
+    }
+    
+    //TODO Healcap
+    this.heal = function(heal_arg) {
+        this.health += heal_arg;
+        console.log(this.name + " heals for " + heal_arg + " health!");
+        this.checkLife();
+        this.updateHealth();
+    }
+    
+    this.updateHealth = function() {
+        document.getElementById(this.name + "-health").innerHTML = this.health;
     }
 
     this.changeOfHeart = function() {
@@ -64,30 +95,129 @@ function wizard(name_arg, level_arg, type_arg){
             this.type = "dark";
         }
     }
+    
+    this.castSpell = function(spell) {
+        if(this.type == spell.type && this.level >= spell.level) {
+            console.log(this.name +" casts " + spell.name + " successfully!\n" + spell.effect)
+        } else if(this.type != spell.type) {
+            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is a " + this.type + " wizard, and " + spell.name + " is a " + spell.type + " spell!")
+        } else if(this.level < spell.level) {
+            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is only level " + this.level + ", and " + spell.name + " is a level " + spell.level + " spell!")
+        }
+    }
+    
+    this.castSpell = function(spell, wizard) {
+        if(this.type == spell.type && this.level >= spell.level) {
+            console.log(this.name +" casts " + spell.name + " successfully!\n" + spell.effect)
+        } else if(this.type != spell.type) {
+            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is a " + this.type + " wizard, and " + spell.name + " is a " + spell.type + " spell!")
+        } else if(this.level < spell.level) {
+            console.log(this.name + " attempts to cast " + spell.name + " but the spell fizzles out since " + this.name + " is only level " + this.level + ", and " + spell.name + " is a level " + spell.level + " spell!")
+        }
+        
+        if (spell.accuracy >=  Math.floor((Math.random() * 100) + 1)) {
+            console.log("The " + spell.name + " connects with " + wizard.name);
+            if(spell.doesDamage) {
+                wizard.takeDamage(spell.power);
+            } else {
+                wizard.heal(spell.power);
+            }
+        } else {
+            console.log("The " + spell.name + " misses " + wizard.name + " and hits the castle walls spectacularly!");
+        }
+    }
+
+    var y = document.createElement("TR");
+    y.setAttribute("id", this.name + "-Tr");
+    document.getElementById("wizardTable").appendChild(y);
+
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.name);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.level);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.type);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.health);
+    z.setAttribute("id", this.name + "-health");
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
 }
 
-function spell(name_arg, level_arg, type_arg, effect_arg) {
-    this.name = name_arg;
-    this.level = level_arg;
-    this.type = type_arg;
-    this.effect = effect_arg;
+function spell(name_arg, level_arg, type_arg, effect_arg, acc_arg, pow_arg, hel_arg) {
+    this.name = name_arg; //String
+    this.level = level_arg; //Int
+    this.type = type_arg; //String
+    this.effect = effect_arg; //String
+    this.accuracy = acc_arg; //Int
+    this.power = pow_arg; //Int
+    this.doesDamage = hel_arg //Boolean
+    
+    var y = document.createElement("TR");
+    y.setAttribute("id", this.name + "-Tr");
+    document.getElementById("spellTable").appendChild(y);
+
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.name);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.level);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.type);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.effect);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.accuracy);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.power);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
+    
+    var z = document.createElement("TD");
+    var t = document.createTextNode(this.doesDamage);
+    z.appendChild(t);
+    document.getElementById(this.name + "-Tr").appendChild(z);
 }
 
 //TESTING
-var voldemort = new wizard("Voldemort", 95, "dark");
-var dumbledore = new wizard("Dumbledore", 99, "light");
-var malfoy = new wizard("Malfoy", 23, "dark");
-var neville = new wizard("Neville", 17, "light");
-var harry = new wizard("Harry", 27, "light");
+function writeHarryPotter(){
+    window.voldemort = new wizard("Voldemort", 95, "dark");
+    window.dumbledore = new wizard("Dumbledore", 99, "light");
+    window.malfoy = new wizard("Malfoy", 23, "dark");
+    window.neville = new wizard("Neville", 17, "light");
+    window.harry = new wizard("Harry", 27, "light");
+    
+    window.avada_kadavra = new spell("Avada Kadavra", 80, "dark", "A deadly flash of green light erupts forth.", 60, 150, true);
+    window.expelliarmus = new spell("Expelliarmus", 25, "light", "A bright flash of red light zaps across the room.", 80, 15, true);
+    window.reducto = new spell("Reducto", 25, "dark", "A loud burst blasts out and obliterates any obstacles in the way.", 30, 60, true);
+    window.episkey = new spell("Episkey", 20, "light", "An invisible energy wizzes out.", 90, 20, false);
+    document.getElementById("potter-btn").style.display = 'none';
+}
 
-//MAKE Ronald Weasley
-
-var avada_kadavra = new spell("Avada Kadavra", 80, "dark", "A flash of green light erupts from their wand, the victim dies instantly!");
-var expelliarmus = new spell("Expelliarmus", 25, "light", "The opponents wand flies out of their hand!");
-var reducto = new spell("Reducto", 25, "dark", "A loud burst erupts from the users wand and obliterates the obstacle in their way!");
-
-//MAKE strong light spell
-//MAKE spell Neville can use
 
 //voldemort.castSpell(avada_kadavra);
 //dumbledore.castSpell(avada_kadavra);

@@ -10,7 +10,35 @@
     </head>
 
     <body>
-        <h1>Harry Potter Simulator</h1>
+        <h1>Book Collection</h1>
+        <button onclick="showBookColl();">Show Book Collection</button>
+        <button onclick="hideBookColl();">Hide Book Collection</button>
         <p id="collection"></p>
+        <h1>Harry Potter Simulator</h1>
+        <h3>Wizards</h3>
+        <table id="wizardTable">
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Type</th>
+                <th>Health</th>
+            </tr>
+        </table>
+        
+        <h3>Spells</h3>
+        <table id="spellTable">
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Type</th>
+                <th>Effect</th>
+                <th>Accuracy</th>
+                <th>Power</th>
+                <th>Does Damage</th>
+            </tr>
+        </table>
+        
+        <button id="potter-btn" onclick="writeHarryPotter();">Write Harry Potter</button>
     </body>
+    <script type="text/javascript" src="script.js"></script>
 </html>
