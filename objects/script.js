@@ -9,7 +9,8 @@
 //Play Around
 
 function showBookColl() {
-    var book1 = {
+    var book1 = { //Books do not have Object Type
+        //PROPERTIES
         title: "White Noise",
         author: "Don Delillo",
         publish_country: "The United States",
@@ -19,7 +20,7 @@ function showBookColl() {
         pages: 326
     };
 
-    var book2 = {
+    var book2 = { //Have to rewrite everything to create a new Object
         title: "Gravity's Rainbow",
         author: "Thomas Pynchon",
         publish_country: "The United States",
@@ -52,16 +53,19 @@ function hideBookColl() {
     document.getElementById("collection").innerHTML = "";
 }
 
+/*///////////////////////////////////////////////////////////////////////////////////*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+//WIZARD CONSTRUCTOR
 function wizard(name_arg, level_arg, type_arg){
+    //PROPERTIES
     this.name = name_arg;
     this.level = level_arg;
     this.type = type_arg;
-    this.health = level_arg + 50;
-
+    this.health = level_arg + 50; //Calculated Property
     
-    
-    this.checkLife = function() {
+    //FUNCTIONS
+    this.checkLife = function() { //Checks if wizard is dead, if not displays their health
         if(this.health <= 0) {
             console.log(this.name + " is Dead!");
         } else {
@@ -69,7 +73,7 @@ function wizard(name_arg, level_arg, type_arg){
         }
     }
     
-    this.takeDamage = function(damage) {
+    this.takeDamage = function(damage) { //Deals damage to wizard equal to input
         this.health -= damage;
         console.log(this.name + " takes " + damage + " damage!");
         this.checkLife();
@@ -77,15 +81,19 @@ function wizard(name_arg, level_arg, type_arg){
     }
     
     //TODO Healcap
-    this.heal = function(heal_arg) {
+    this.heal = function(heal_arg) { //Heals wizard for input
         this.health += heal_arg;
         console.log(this.name + " heals for " + heal_arg + " health!");
         this.checkLife();
         this.updateHealth();
     }
     
-    this.updateHealth = function() {
+    this.updateHealth = function() { //Updates DOM table of wizards Health
         document.getElementById(this.name + "-health").innerHTML = this.health;
+    }
+    
+    this.updateType = function() { //Updates DOM table of wizards Health
+        document.getElementById(this.name + "-type").innerHTML = this.type;
     }
 
     this.changeOfHeart = function() {
@@ -94,9 +102,10 @@ function wizard(name_arg, level_arg, type_arg){
         } else if (this.type == "light") {
             this.type = "dark";
         }
+        this.updateType();
     }
     
-    this.castSpell = function(spell) {
+    this.castSpell = function(spell) { //Casts Spell
         if(this.type == spell.type && this.level >= spell.level) {
             console.log(this.name +" casts " + spell.name + " successfully!\n" + spell.effect)
         } else if(this.type != spell.type) {
@@ -106,7 +115,7 @@ function wizard(name_arg, level_arg, type_arg){
         }
     }
     
-    this.castSpell = function(spell, wizard) {
+    this.castSpell = function(spell, wizard) { //Casts Spell on other wizard
         if(this.type == spell.type && this.level >= spell.level) {
             console.log(this.name +" casts " + spell.name + " successfully!\n" + spell.effect)
         } else if(this.type != spell.type) {
@@ -126,7 +135,8 @@ function wizard(name_arg, level_arg, type_arg){
             console.log("The " + spell.name + " misses " + wizard.name + " and hits the castle walls spectacularly!");
         }
     }
-
+    
+    //COMMANDS Run upon construction
     var y = document.createElement("TR");
     y.setAttribute("id", this.name + "-Tr");
     document.getElementById("wizardTable").appendChild(y);
@@ -143,6 +153,7 @@ function wizard(name_arg, level_arg, type_arg){
     
     var z = document.createElement("TD");
     var t = document.createTextNode(this.type);
+    z.setAttribute("id", this.name + "-type");
     z.appendChild(t);
     document.getElementById(this.name + "-Tr").appendChild(z);
     
@@ -209,7 +220,7 @@ function writeHarryPotter(){
     window.dumbledore = new wizard("Dumbledore", 99, "light");
     window.malfoy = new wizard("Malfoy", 23, "dark");
     window.neville = new wizard("Neville", 17, "light");
-    window.harry = new wizard("Harry", 27, "light");
+    window.harry = new wizard("Harry", 32, "light");
     
     window.avada_kadavra = new spell("Avada Kadavra", 80, "dark", "A deadly flash of green light erupts forth.", 60, 150, true);
     window.expelliarmus = new spell("Expelliarmus", 25, "light", "A bright flash of red light zaps across the room.", 80, 15, true);
