@@ -6,6 +6,6 @@ h3 {
     color:black;
 }
 
-table, tr, td {
-    border: 2px solid black;
+tr, td, table {
+    border: 1px solid black;
 }
