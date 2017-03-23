@@ -1,0 +1,12 @@
+.title {
+  text-align: center;
+}
+
+#score-set {
+  text-align: center;
+  margin-top: 10px;
+}
+
+h1.won {
+  color: green;
+}
