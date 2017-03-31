@@ -1,23 +1,16 @@
 body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    padding-top: 70px;
+    padding-bottom: 50px;
 }
 
 footer {
-    margin: 50px 0;
+/*    margin: 50px 0;*/
 }
 
-a:hover {
-    color: inherit !important;
+.container {
+    margin: auto;
 }
 
-a:link, a:visited {
-    color: inherit;
-    text-decoration: none;
-    cursor: auto;
+.row {
+    margin: 0 auto;
 }
-
-a:link:active, a:visited:active {
-    color: inherit;
-}
-
-
